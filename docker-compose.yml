@@ -1,0 +1,30 @@
+version: "3"
+services:
+    db:
+        container_name: mongodb
+        image: mongo
+        restart: always
+        ports: 
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db
+        command: mongod --quiet --logpath /dev/null 
+    server:
+        build: ./server
+        container_name: server
+        ports:
+            - 8888:8888
+        volumes:
+            - ./server:/usr/src/app/server
+            - /usr/src/app/server/node_modules
+            - data-volume:/var/lib/shared
+        links:
+            - db
+    web:
+        build:
+        container_name:
+        ports:
+        volumes:
+volumes:
+    mongodb:
+    data-volume:
